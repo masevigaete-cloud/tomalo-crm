@@ -1,0 +1,15 @@
+{
+  "name": "tomalo-crm",
+  "version": "1.0.0",
+  "description": "Sistema de Tickets (WhatsApp/Email) y CRM comercial para Tomalo - multiusuario, multicanal",
+  "type": "commonjs",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node db.js --seed"
+  },
+  "dependencies": {}
+}
