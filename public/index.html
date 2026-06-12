@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomalo Â· Tickets &amp; CRM</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">ð</div>
+      <div class="login-logo-text">Tomalo</div>
+    </div>
+    <p class="muted">Tickets de soporte (WhatsApp / Email) &amp; CRM comercial</p>
+    <form id="login-form">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label>ContraseÃ±a</label>
+        <input type="password" id="login-password" required autocomplete="current-password">
+      </div>
+      <div id="login-error" class="login-error hidden"></div>
+      <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+    </form>
+    <p class="muted login-hint">Usuario demo: <strong>admin@tomalo.cl</strong> / <strong>admin123</strong></p>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div class="app hidden" id="app">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">ð</div>
+      <div>
+        <div class="brand-name">Tomalo</div>
+        <div class="brand-sub">Tickets &amp; CRM</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn active" data-view="dashboard">ð <span>Dashboard</span></button>
+      <button class="nav-btn" data-view="whatsapp">ð¬ <span>WhatsApp</span> <span class="badge-pill" id="nav-wsp-badge"></span></button>
+      <button class="nav-btn" data-view="email">ð§ <span>Email</span> <span class="badge-pill" id="nav-email-badge"></span></button>
+      <button class="nav-btn" data-view="tickets">ð« <span>Tickets</span></button>
+      <button class="nav-btn" data-view="crm">ð¼ <span>CRM / Pipeline</span></button>
+      <button class="nav-btn" data-view="clientes">ð¥ <span>Clientes</span></button>
+      <button class="nav-btn" data-view="canales" id="nav-canales">ð¡ <span>Canales</span></button>
+      <button class="nav-btn" data-view="usuarios" id="nav-usuarios">ð <span>Usuarios</span></button>
+      <button class="nav-btn" data-view="ayuda">â¹ï¸ <span>CÃ³mo funciona</span></button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div>
+          <div class="user-name" id="user-name">-</div>
+          <div class="user-role" id="user-role">-</div>
+        </div>
+      </div>
+      <button id="logout-btn" class="link-btn">â Cerrar sesiÃ³n</button>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main class="content">
+
+    <!-- ---------- DASHBOARD ---------- -->
+    <section id="view-dashboard" class="view active">
+      <header class="view-header">
+        <h1>Dashboard</h1>
+        <p class="muted">Resumen general de soporte (tickets) y comercial (CRM)</p>
+      </header>
+
+      <div class="kpi-grid" id="kpi-grid"></div>
+
+      <div class="dashboard-grid">
+        <div class="card">
+          <h3>Tickets por estado</h3>
+          <div id="chart-tickets-estado" class="bar-chart"></div>
+        </div>
+        <div class="card">
+          <h3>Tickets por prioridad</h3>
+          <div id="chart-tickets-prioridad" class="bar-chart"></div>
+        </div>
+        <div class="card">
+          <h3>Pipeline comercial por etapa</h3>
+          <div id="chart-pipeline-etapa" class="bar-chart"></div>
+        </div>
+        <div class="card">
+          <h3>Tickets recientes</h3>
+          <div id="dashboard-recent-tickets" class="mini-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- WHATSAPP INBOX ---------- -->
+    <section id="view-whatsapp" class="view">
+      <header class="view-header">
+        <h1>Bandeja de WhatsApp</h1>
+        <p class="muted">Mensajes de los nÃºmeros de WhatsApp configurados. Desde aquÃ­ puedes responder, crear tickets u oportunidades.</p>
+      </header>
+      <div class="wsp-layout">
+        <div class="wsp-list" id="wsp-list-whatsapp"></div>
+        <div class="wsp-thread" id="wsp-thread-whatsapp">
+          <div class="empty-state">Selecciona una conversaciÃ³n para verla aquÃ­.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- EMAIL INBOX ---------- -->
+    <section id="view-email" class="view">
+      <header class="view-header">
+        <h1>Bandeja de Email</h1>
+        <p class="muted">Correos de las cuentas configuradas. Desde aquÃ­ puedes responder, crear tickets u oportunidades.</p>
+      </header>
+      <div class="wsp-layout">
+        <div class="wsp-list" id="wsp-list-email"></div>
+        <div class="wsp-thread" id="wsp-thread-email">
+          <div class="empty-state">Selecciona una conversaciÃ³n para verla aquÃ­.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- TICKETS (KANBAN) ---------- -->
+    <section id="view-tickets" class="view">
+      <header class="view-header">
+        <h1>Mesa de Ayuda Â· Tickets</h1>
+        <p class="muted">GestiÃ³n de problemas e incidencias reportadas por clientes</p>
+        <div class="actions-row">
+          <button class="btn btn-primary" id="btn-new-ticket">+ Nuevo ticket</button>
+          <input type="search" id="ticket-search" placeholder="Buscar por cliente, telÃ©fono o texto...">
+          <select id="filter-prioridad">
+            <option value="">Todas las prioridades</option>
+          </select>
+          <select id="filter-categoria">
+            <option value="">Todas las categorÃ­as</option>
+          </select>
+        </div>
+      </header>
+      <div class="kanban" id="tickets-kanban"></div>
+    </section>
+
+    <!-- ---------- CRM PIPELINE ---------- -->
+    <section id="view-crm" class="view">
+      <header class="view-header">
+        <h1>CRM Â· Pipeline Comercial</h1>
+        <p class="muted">Seguimiento de oportunidades de negocio</p>
+        <div class="actions-row">
+          <button class="btn btn-primary" id="btn-new-oportunidad">+ Nueva oportunidad</button>
+          <div class="pipeline-total" id="pipeline-total"></div>
+        </div>
+      </header>
+      <div class="kanban" id="crm-kanban"></div>
+    </section>
+
+    <!-- ---------- CLIENTES ---------- -->
+    <section id="view-clientes" class="view">
+      <header class="view-header">
+        <h1>Clientes</h1>
+        <p class="muted">Base de clientes y contactos</p>
+        <div class="actions-row">
+          <button class="btn btn-primary" id="btn-new-cliente">+ Nuevo cliente</button>
+          <input type="search" id="cliente-search" placeholder="Buscar cliente...">
+        </div>
+      </header>
+      <div class="table-wrap">
+        <table class="data-table" id="clientes-table">
+          <thead>
+            <tr>
+              <th>Nombre / Empresa</th>
+              <th>Contacto</th>
+              <th>TelÃ©fono</th>
+              <th>Tipo</th>
+              <th>Etiquetas</th>
+              <th>Tickets</th>
+              <th>Oportunidades</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------- CANALES (ADMIN) ---------- -->
+    <section id="view-canales" class="view">
+      <header class="view-header">
+        <h1>Canales</h1>
+        <p class="muted">Configura los nÃºmeros de WhatsApp Business y cuentas de correo conectados al sistema.</p>
+      </header>
+
+      <h3 class="section-title">NÃºmeros de WhatsApp</h3>
+      <div class="actions-row"><button class="btn btn-primary" id="btn-new-canal-wsp">+ Agregar nÃºmero de WhatsApp</button></div>
+      <div class="table-wrap">
+        <table class="data-table" id="canales-wsp-table">
+          <thead><tr><th>Nombre</th><th>TelÃ©fono</th><th>Phone Number ID</th><th>Estado</th><th>Webhook</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h3 class="section-title">Cuentas de Email</h3>
+      <div class="actions-row"><button class="btn btn-primary" id="btn-new-canal-email">+ Agregar cuenta de email</button></div>
+      <div class="table-wrap">
+        <table class="data-table" id="canales-email-table">
+          <thead><tr><th>Nombre</th><th>DirecciÃ³n</th><th>Proveedor</th><th>Estado</th><th>Webhook</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------- USUARIOS (ADMIN) ---------- -->
+    <section id="view-usuarios" class="view">
+      <header class="view-header">
+        <h1>Usuarios</h1>
+        <p class="muted">Gestiona quiÃ©n puede acceder al sistema y con quÃ© rol.</p>
+        <div class="actions-row">
+          <button class="btn btn-primary" id="btn-new-usuario">+ Nuevo usuario</button>
+        </div>
+      </header>
+      <div class="table-wrap">
+        <table class="data-table" id="usuarios-table">
+          <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------- AYUDA ---------- -->
+    <section id="view-ayuda" class="view">
+      <header class="view-header">
+        <h1>CÃ³mo funciona este sistema</h1>
+      </header>
+
+      <div class="card help-card">
+        <h3>1. Usuarios y roles</h3>
+        <p>Existen 3 roles: <strong>admin</strong> (gestiona usuarios y canales, ademÃ¡s de todo lo demÃ¡s), <strong>comercial</strong> (CRM/pipeline, clientes, tickets) y <strong>agente</strong> (tickets, bandejas de WhatsApp/Email, clientes). Un administrador crea las cuentas desde la pestaÃ±a <strong>Usuarios</strong>.</p>
+
+        <h3>2. Canales de WhatsApp (multi-nÃºmero)</h3>
+        <p>En la pestaÃ±a <strong>Canales</strong> puedes agregar varios nÃºmeros de WhatsApp Business. Cada nÃºmero necesita, desde <a href="https://developers.facebook.com/apps" target="_blank" rel="noopener">Meta for Developers</a>:</p>
+        <ul>
+          <li><strong>Phone Number ID</strong> y <strong>WABA ID</strong> (panel de WhatsApp &gt; Cuenta de la API).</li>
+          <li><strong>Token de acceso permanente</strong> (System User con permiso whatsapp_business_messaging).</li>
+          <li>Configurar el <strong>webhook</strong> de Meta apuntando a la URL que se muestra en la tabla (incluye el token de verificaciÃ³n generado automÃ¡ticamente).</li>
+        </ul>
+
+        <h3>3. Canales de Email (multi-cuenta)</h3>
+        <p>Cada cuenta de correo usa un proveedor de envÃ­o vÃ­a API (Resend, SendGrid o Mailgun) â no se necesita SMTP/IMAP. Para recibir correos, configura el "inbound webhook" del proveedor apuntando a la URL mostrada en la tabla.</p>
+
+        <h3>4. Flujo de trabajo</h3>
+        <p>Los mensajes entrantes (WhatsApp o Email) aparecen en sus respectivas bandejas. Desde una conversaciÃ³n se puede responder directamente, o generar un <strong>ticket</strong> (mesa de ayuda, Kanban: Nuevo â En Proceso â Esperando Cliente â Resuelto â Cerrado) o una <strong>oportunidad</strong> en el pipeline CRM (Prospecto â Contactado â CotizaciÃ³n Enviada â NegociaciÃ³n â Ganado/Perdido).</p>
+
+        <h3>5. Datos</h3>
+        <p>Toda la informaciÃ³n se guarda en una base de datos SQLite del servidor (<code>data/tomalo.db</code>), compartida entre todos los usuarios y dispositivos â a diferencia de la versiÃ³n anterior, que guardaba todo solo en el navegador.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===================== MODAL ===================== -->
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<!-- ===================== TOAST ===================== -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
