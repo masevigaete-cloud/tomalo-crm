@@ -3,6 +3,329 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomalo Â· CRM</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231E1E1E'/><clipPath id='c'><rect width='32' height='32' rx='7'/></clipPath><polygon points='0,0 32,0 32,32' fill='%23FF6A00' clip-path='url(%23c)'/><line x1='8' y1='11' x2='24' y2='11' stroke='white' stroke-width='2.8' stroke-linecap='round'/><line x1='16' y1='11' x2='16' y2='23' stroke='white' stroke-width='2.8' stroke-linecap='round'/></svg>">
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <!-- Logo T diagonal bicolor -->
+      <svg class="login-logo-svg" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="60" height="60" rx="14" fill="#1E1E1E"/>
+        <clipPath id="lc"><rect width="60" height="60" rx="14"/></clipPath>
+        <polygon points="0,0 60,0 60,60" fill="#FF6A00" clip-path="url(#lc)"/>
+        <line x1="15" y1="21" x2="45" y2="21" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="30" y1="21" x2="30" y2="46" stroke="white" stroke-width="5.5" stroke-linecap="round"/>
+      </svg>
+      <div class="login-logo-wordmark">
+        <span class="t-accent">T</span><span class="t-rest">omalo</span>
+      </div>
+      <div class="login-logo-slogan">Lo pides, lo tienes</div>
+    </div>
+    <form id="login-form">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label>ContraseÃ±a</label>
+        <input type="password" id="login-password" required autocomplete="current-password">
+      </div>
+      <div id="login-error" class="login-error hidden"></div>
+      <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+    </form>
+    <p class="login-hint">Demo: <strong>admin@tomalo.cl</strong> / <strong>admin123</strong></p>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div class="app hidden" id="app">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <!-- Logo T diagonal bicolor (sidebar) -->
+      <svg class="brand-logo-svg" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="7" fill="#1E1E1E"/>
+        <clipPath id="sc"><rect width="32" height="32" rx="7"/></clipPath>
+        <polygon points="0,0 32,0 32,32" fill="#FF6A00" clip-path="url(#sc)"/>
+        <line x1="8" y1="11" x2="24" y2="11" stroke="white" stroke-width="2.8" stroke-linecap="round"/>
+        <line x1="16" y1="11" x2="16" y2="23" stroke="white" stroke-width="2.8" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-text">
+        <div class="brand-name"><span class="t-accent">T</span>omalo</div>
+        <div class="brand-sub">Lo pides, lo tienes</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn active" data-view="dashboard">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </button>
+
+      <div class="nav-section-label">AtenciÃ³n</div>
+      <button class="nav-btn" data-view="whatsapp">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span>WhatsApp</span>
+        <span class="badge-pill" id="nav-wsp-badge"></span>
+      </button>
+      <button class="nav-btn" data-view="email">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>Email</span>
+        <span class="badge-pill" id="nav-email-badge"></span>
+      </button>
+      <button class="nav-btn" data-view="tickets">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        <span>Tickets</span>
+      </button>
+
+      <div class="nav-section-label">Ventas</div>
+      <button class="nav-btn" data-view="crm">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>Pipeline</span>
+      </button>
+      <button class="nav-btn" data-view="clientes">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Clientes</span>
+      </button>
+
+      <div class="nav-section-label">ConfiguraciÃ³n</div>
+      <button class="nav-btn" data-view="canales" id="nav-canales">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+        <span>Canales</span>
+      </button>
+      <button class="nav-btn" data-view="usuarios" id="nav-usuarios">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+        <span>Usuarios</span>
+      </button>
+      <button class="nav-btn" data-view="ayuda">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>CÃ³mo funciona</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div>
+          <div class="user-name" id="user-name">-</div>
+          <div class="user-role" id="user-role">-</div>
+        </div>
+      </div>
+      <button id="logout-btn" class="link-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Cerrar sesiÃ³n
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main class="content">
+
+    <!-- ---------- DASHBOARD ---------- -->
+    <section id="view-dashboard" class="view active">
+      <header class="view-header">
+        <h1>Dashboard</h1>
+        <p class="muted">Resumen general â soporte y ventas</p>
+      </header>
+      <div class="kpi-grid" id="kpi-grid"></div>
+      <div class="dashboard-grid">
+        <div class="card">
+          <h3>Tickets por estado</h3>
+          <div id="chart-tickets-estado" class="bar-chart"></div>
+        </div>
+        <div class="card">
+          <h3>Tickets por prioridad</h3>
+          <div id="chart-tickets-prioridad" class="bar-chart"></div>
+        </div>
+        <div class="card">
+          <h3>Pipeline por etapa</h3>
+          <div id="chart-pipeline-etapa" class="bar-chart"></div>
+        </div>
+        <div class="card">
+          <h3>Tickets recientes</h3>
+          <div id="dashboard-recent-tickets" class="mini-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- WHATSAPP INBOX ---------- -->
+    <section id="view-whatsapp" class="view">
+      <header class="view-header">
+        <h1>Bandeja de WhatsApp</h1>
+        <p class="muted">Mensajes entrantes. Responde, crea tickets u oportunidades desde aquÃ­.</p>
+      </header>
+      <div class="wsp-layout">
+        <div class="wsp-list" id="wsp-list-whatsapp"></div>
+        <div class="wsp-thread" id="wsp-thread-whatsapp">
+          <div class="empty-state">Selecciona una conversaciÃ³n para verla aquÃ­.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- EMAIL INBOX ---------- -->
+    <section id="view-email" class="view">
+      <header class="view-header">
+        <h1>Bandeja de Email</h1>
+        <p class="muted">Correos de las cuentas configuradas. Responde, crea tickets u oportunidades.</p>
+      </header>
+      <div class="wsp-layout">
+        <div class="wsp-list" id="wsp-list-email"></div>
+        <div class="wsp-thread" id="wsp-thread-email">
+          <div class="empty-state">Selecciona una conversaciÃ³n para verla aquÃ­.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- TICKETS (KANBAN) ---------- -->
+    <section id="view-tickets" class="view">
+      <header class="view-header">
+        <h1>Mesa de Ayuda Â· Tickets</h1>
+        <p class="muted">GestiÃ³n de problemas e incidencias reportadas por clientes</p>
+        <div class="actions-row">
+          <button class="btn btn-primary" id="btn-new-ticket">+ Nuevo ticket</button>
+          <input type="search" id="ticket-search" placeholder="Buscar por cliente, telÃ©fono o texto...">
+          <select id="filter-prioridad">
+            <option value="">Todas las prioridades</option>
+          </select>
+          <select id="filter-categoria">
+            <option value="">Todas las categorÃ­as</option>
+          </select>
+        </div>
+      </header>
+      <div class="kanban" id="tickets-kanban"></div>
+    </section>
+
+    <!-- ---------- CRM PIPELINE ---------- -->
+    <section id="view-crm" class="view">
+      <header class="view-header">
+        <h1>Pipeline Comercial</h1>
+        <p class="muted">Seguimiento de oportunidades de negocio</p>
+        <div class="actions-row">
+          <button class="btn btn-primary" id="btn-new-oportunidad">+ Nueva oportunidad</button>
+          <div class="pipeline-total" id="pipeline-total"></div>
+        </div>
+      </header>
+      <div class="kanban" id="crm-kanban"></div>
+    </section>
+
+    <!-- ---------- CLIENTES ---------- -->
+    <section id="view-clientes" class="view">
+      <header class="view-header">
+        <h1>Clientes</h1>
+        <p class="muted">Base de clientes y contactos</p>
+        <div class="actions-row">
+          <button class="btn btn-primary" id="btn-new-cliente">+ Nuevo cliente</button>
+          <input type="search" id="cliente-search" placeholder="Buscar cliente...">
+        </div>
+      </header>
+      <div class="table-wrap">
+        <table class="data-table" id="clientes-table">
+          <thead>
+            <tr>
+              <th>Nombre / Empresa</th>
+              <th>Contacto</th>
+              <th>TelÃ©fono</th>
+              <th>Tipo</th>
+              <th>Etiquetas</th>
+              <th>Tickets</th>
+              <th>Oportunidades</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------- CANALES (ADMIN) ---------- -->
+    <section id="view-canales" class="view">
+      <header class="view-header">
+        <h1>Canales</h1>
+        <p class="muted">Configura los nÃºmeros de WhatsApp Business y cuentas de correo conectados.</p>
+      </header>
+      <h3 class="section-title">NÃºmeros de WhatsApp</h3>
+      <div class="actions-row"><button class="btn btn-primary" id="btn-new-canal-wsp">+ Agregar nÃºmero de WhatsApp</button></div>
+      <div class="table-wrap">
+        <table class="data-table" id="canales-wsp-table">
+          <thead><tr><th>Nombre</th><th>TelÃ©fono</th><th>Phone Number ID</th><th>Estado</th><th>Webhook</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h3 class="section-title">Cuentas de Email</h3>
+      <div class="actions-row"><button class="btn btn-primary" id="btn-new-canal-email">+ Agregar cuenta de email</button></div>
+      <div class="table-wrap">
+        <table class="data-table" id="canales-email-table">
+          <thead><tr><th>Nombre</th><th>DirecciÃ³n</th><th>Proveedor</th><th>Estado</th><th>Webhook</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------- USUARIOS (ADMIN) ---------- -->
+    <section id="view-usuarios" class="view">
+      <header class="view-header">
+        <h1>Usuarios</h1>
+        <p class="muted">Gestiona quiÃ©n puede acceder al sistema y con quÃ© rol.</p>
+        <div class="actions-row">
+          <button class="btn btn-primary" id="btn-new-usuario">+ Nuevo usuario</button>
+        </div>
+      </header>
+      <div class="table-wrap">
+        <table class="data-table" id="usuarios-table">
+          <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------- AYUDA ---------- -->
+    <section id="view-ayuda" class="view">
+      <header class="view-header">
+        <h1>CÃ³mo funciona este sistema</h1>
+      </header>
+      <div class="card help-card">
+        <h3>1. Usuarios y roles</h3>
+        <p>Existen 3 roles: <strong>admin</strong> (gestiona usuarios y canales, ademÃ¡s de todo lo demÃ¡s), <strong>comercial</strong> (CRM/pipeline, clientes, tickets) y <strong>agente</strong> (tickets, bandejas de WhatsApp/Email, clientes). Un administrador crea las cuentas desde la pestaÃ±a <strong>Usuarios</strong>.</p>
+
+        <h3>2. Canales de WhatsApp (multi-nÃºmero)</h3>
+        <p>En la pestaÃ±a <strong>Canales</strong> puedes agregar varios nÃºmeros de WhatsApp Business. Cada nÃºmero necesita, desde <a href="https://developers.facebook.com/apps" target="_blank" rel="noopener">Meta for Developers</a>: Phone Number ID, WABA ID, Token de acceso permanente, y configurar el webhook de Meta apuntando a la URL que se muestra en la tabla.</p>
+
+        <h3>3. Canales de Email (multi-cuenta)</h3>
+        <p>Cada cuenta de correo usa un proveedor de envÃ­o vÃ­a API (Resend, SendGrid o Mailgun) â no se necesita SMTP/IMAP. Para recibir correos, configura el "inbound webhook" del proveedor apuntando a la URL mostrada en la tabla.</p>
+
+        <h3>4. Flujo de trabajo</h3>
+        <p>Los mensajes entrantes (WhatsApp o Email) aparecen en sus respectivas bandejas. Desde una conversaciÃ³n se puede responder directamente, o generar un <strong>ticket</strong> (Mesa de ayuda, Kanban: Nuevo â En Proceso â Esperando Cliente â Resuelto â Cerrado) o una <strong>oportunidad</strong> en el pipeline CRM (Prospecto â Contactado â CotizaciÃ³n Enviada â NegociaciÃ³n â Ganado/Perdido).</p>
+
+        <h3>5. Datos</h3>
+        <p>Toda la informaciÃ³n se guarda en una base de datos SQLite del servidor (<code>tomalo.db</code>), compartida entre todos los usuarios y dispositivos.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===================== MODAL ===================== -->
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<!-- ===================== TOAST ===================== -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tomalo Â· Tickets &amp; CRM</title>
 <link rel="stylesheet" href="/styles.css">
 </head>
